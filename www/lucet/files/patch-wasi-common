@@ -1,0 +1,53 @@
+--- cargo-crates/wasi-common-0.7.0/src/sys/unix/bsd/mod.rs	2019-11-15 UTC
++++ cargo-crates/wasi-common-0.7.0.1/src/sys/unix/bsd/mod.rs
+@@ -26,14 +26,15 @@ pub(crate) mod host_impl {
+     use crate::{wasi, Result};
+ 
+     pub(crate) const O_RSYNC: nix::fcntl::OFlag = nix::fcntl::OFlag::O_SYNC;
++    pub(crate) const O_DSYNC: nix::fcntl::OFlag = nix::fcntl::OFlag::O_SYNC;
+ 
+     pub(crate) fn dirent_from_host(
+         host_entry: &nix::libc::dirent,
+     ) -> Result<wasi::__wasi_dirent_t> {
+         let mut entry = unsafe { std::mem::zeroed::<wasi::__wasi_dirent_t>() };
+         let d_type = dirent_filetype_from_host(host_entry)?;
+-        entry.d_ino = host_entry.d_ino;
+-        entry.d_next = host_entry.d_seekoff;
++        entry.d_ino = host_entry.d_fileno.into();
++        //entry.d_next = host_entry.d_seekoff;
+         entry.d_namlen = u32::from(host_entry.d_namlen);
+         entry.d_type = d_type;
+         Ok(entry)
+diff -durp wasi-common-0.7.0/src/sys/unix/host_impl.rs wasi-common-0.7.0.1/src/sys/unix/host_impl.rs
+--- cargo-crates/wasi-common-0.7.0/src/sys/unix/host_impl.rs	2019-11-15 17:30:18.000000000 +0100
++++ cargo-crates/wasi-common-0.7.0.1/src/sys/unix/host_impl.rs	2019-12-07 18:09:29.044784000 +0100
+@@ -113,7 +113,7 @@ pub(crate) fn nix_from_fdflags(fdflags: wasi::__wasi_f
+         nix_flags.insert(OFlag::O_APPEND);
+     }
+     if fdflags & wasi::__WASI_FDFLAG_DSYNC != 0 {
+-        nix_flags.insert(OFlag::O_DSYNC);
++        nix_flags.insert(O_DSYNC);
+     }
+     if fdflags & wasi::__WASI_FDFLAG_NONBLOCK != 0 {
+         nix_flags.insert(OFlag::O_NONBLOCK);
+@@ -133,7 +133,7 @@ pub(crate) fn fdflags_from_nix(oflags: nix::fcntl::OFl
+     if oflags.contains(OFlag::O_APPEND) {
+         fdflags |= wasi::__WASI_FDFLAG_APPEND;
+     }
+-    if oflags.contains(OFlag::O_DSYNC) {
++    if oflags.contains(O_DSYNC) {
+         fdflags |= wasi::__WASI_FDFLAG_DSYNC;
+     }
+     if oflags.contains(OFlag::O_NONBLOCK) {
+diff -durp wasi-common-0.7.0/src/sys/unix/hostcalls_impl/fs_helpers.rs wasi-common-0.7.0.1/src/sys/unix/hostcalls_impl/fs_helpers.rs
+--- cargo-crates/wasi-common-0.7.0/src/sys/unix/hostcalls_impl/fs_helpers.rs	2019-11-15 17:30:18.000000000 +0100
++++ cargo-crates/wasi-common-0.7.0.1/src/sys/unix/hostcalls_impl/fs_helpers.rs	2019-12-07 18:06:56.458267000 +0100
+@@ -27,7 +27,7 @@ pub(crate) fn path_open_rights(
+ 
+     // convert file descriptor flags
+     let fdflags = host_impl::nix_from_fdflags(fs_flags);
+-    if fdflags.contains(OFlag::O_DSYNC) {
++    if fdflags.contains(host_impl::O_DSYNC) {
+         needed_inheriting |= wasi::__WASI_RIGHT_FD_DATASYNC;
+     }
+     if fdflags.intersects(host_impl::O_RSYNC | OFlag::O_SYNC) {

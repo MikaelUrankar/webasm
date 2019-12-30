@@ -1,0 +1,9 @@
+bin/lucet-objdump
+bin/lucet-validate
+bin/lucet-wasi
+bin/lucetc
+bin/sightglass
+bin/witx
+lib/liblucet_runtime.so
+lib/liblucet_runtime_macros.so
+lib/liblucet_wasi.so

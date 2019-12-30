@@ -1,0 +1,7 @@
+A Bytecode Alliance project
+
+Lucet is a native WebAssembly compiler and runtime.
+It is designed to safely execute untrusted WebAssembly programs inside your
+application.
+
+WWW: https://github.com/bytecodealliance/lucet

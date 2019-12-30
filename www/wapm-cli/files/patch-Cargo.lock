@@ -1,0 +1,29 @@
+--- wapm-cli-0.4.1/Cargo.lock	2019-11-12 01:08:57.000000000 +0100
++++ Cargo.lock	2019-12-10 19:38:41.965352000 +0100
+@@ -2518,7 +2518,7 @@ dependencies = [
+  "url 1.7.2 (registry+https://github.com/rust-lang/crates.io-index)",
+  "walrus 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+  "wasm-interface 0.1.0",
+- "wasmer-runtime-core 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "wasmer-runtime-core 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
+  "wasmparser 0.39.2 (registry+https://github.com/rust-lang/crates.io-index)",
+  "whoami 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
+  "zstd 0.4.28+zstd.1.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
+@@ -2541,7 +2541,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "wasmer-runtime-core"
+-version = "0.9.0"
++version = "0.11.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ dependencies = [
+  "bincode 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+@@ -2971,7 +2971,7 @@ dependencies = [
+ "checksum walrus-macro 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d92de94064111aca5840e5ab5a72df9447adeed24fe8b75b43160904c04ddfa3"
+ "checksum want 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b6395efa4784b027708f7451087e647ec73cc74f5d9bc2e418404248d679a230"
+ "checksum wasi 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b89c3ce4ce14bdc6fb6beaf9ec7928ca331de5df7e5ea278375642a2f478570d"
+-"checksum wasmer-runtime-core 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7d8f7ba03f40f62d25335196b5b0b0b9aab27d601d621d849b850e9efb8cd2da"
++"checksum wasmer-runtime-core 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)" = "05ee6802738107acfac9b13d37c0acb575464ba343ebf519ddbdf04bbc55beab"
+ "checksum wasmparser 0.29.2 (registry+https://github.com/rust-lang/crates.io-index)" = "981a8797cf89762e0233ec45fae731cb79a4dfaee12d9f0fe6cee01e4ac58d00"
+ "checksum wasmparser 0.32.1 (registry+https://github.com/rust-lang/crates.io-index)" = "22d1801de30f112ddaf665291097694ee33a36d1cb414b53a921d05b3519674a"
+ "checksum wasmparser 0.39.2 (registry+https://github.com/rust-lang/crates.io-index)" = "e5083b449454f7de0b15f131eee17de54b5a71dcb9adcf11df2b2f78fad0cd82"
