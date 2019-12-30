@@ -1,21 +1,37 @@
-From 941172a68855189a2f4176383dd52c403239f211 Mon Sep 17 00:00:00 2001
+From 4f2cdb3ffc2b55027b67f372f3e8237828aa9d86 Mon Sep 17 00:00:00 2001
 From: MikaelUrankar <mikael.urankar@gmail.com>
 Date: Sun, 24 Nov 2019 20:08:54 +0100
-Subject: [PATCH] Port to FreeBSD amd64
+Subject: [PATCH] Port to FreeBSD
 
 ---
- lib/clif-backend/src/signal/unix.rs |  72 ++++++++++++
- lib/emscripten/src/syscalls/unix.rs |  38 +++++--
+ lib/clif-backend/src/libcalls.rs    |   2 +-
+ lib/clif-backend/src/signal/unix.rs |  81 ++++++++++
+ lib/emscripten/src/syscalls/unix.rs |  38 ++++-
  lib/emscripten/src/time.rs          |   5 +
- lib/runtime-core/src/fault.rs       | 164 ++++++++++++++++++++++++++++
+ lib/llvm-backend/build.rs           |   1 +
+ lib/llvm-backend/src/backend.rs     |   2 +-
+ lib/llvm-backend/src/stackmap.rs    |   2 +-
+ lib/runtime-core/src/fault.rs       | 238 ++++++++++++++++++++++++++++
  lib/wasi/src/syscalls/mod.rs        |   4 +-
- 5 files changed, 273 insertions(+), 10 deletions(-)
+ 9 files changed, 360 insertions(+), 13 deletions(-)
 
+diff --git a/lib/clif-backend/src/libcalls.rs b/lib/clif-backend/src/libcalls.rs
+index d03e9e899..6d43bfe7b 100644
+--- a/lib/clif-backend/src/libcalls.rs
++++ b/lib/clif-backend/src/libcalls.rs
+@@ -77,6 +77,6 @@ pub extern "C" fn nearbyintf64(x: f64) -> f64 {
+ }
+ 
+ // FIXME: Is there a replacement on AArch64?
+-#[cfg(all(target_os = "linux", target_arch = "aarch64"))]
++#[cfg(any(target_arch = "aarch64", all(target_os = "linux", target_os = "freebsd")))]
+ #[no_mangle]
+ pub extern "C" fn __rust_probestack() {}
 diff --git a/lib/clif-backend/src/signal/unix.rs b/lib/clif-backend/src/signal/unix.rs
-index 79b6619d3..422241657 100644
+index 79b6619d3..88b14c795 100644
 --- a/lib/clif-backend/src/signal/unix.rs
 +++ b/lib/clif-backend/src/signal/unix.rs
-@@ -149,6 +149,77 @@ unsafe fn get_faulting_addr_and_ip(
+@@ -149,6 +149,85 @@ unsafe fn get_faulting_addr_and_ip(
      (::std::ptr::null(), ::std::ptr::null())
  }
  
@@ -90,19 +106,27 @@ index 79b6619d3..422241657 100644
 +    (si_addr, rip as _)
 +}
 +
++#[cfg(all(target_os = "freebsd", target_arch = "aarch64"))]
++unsafe fn get_faulting_addr_and_ip(
++    _siginfo: *const c_void,
++    _ucontext: *const c_void,
++) -> (*const c_void, *const c_void) {
++    (::std::ptr::null(), ::std::ptr::null())
++}
++
  #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
  unsafe fn get_faulting_addr_and_ip(
      siginfo: *const c_void,
-@@ -239,6 +310,7 @@ unsafe fn get_faulting_addr_and_ip(
- }
- 
- #[cfg(not(any(
-+    all(target_os = "freebsd", target_arch = "x86_64"),
+@@ -242,5 +321,7 @@ unsafe fn get_faulting_addr_and_ip(
      all(target_os = "macos", target_arch = "x86_64"),
      all(target_os = "linux", target_arch = "x86_64"),
      all(target_os = "linux", target_arch = "aarch64"),
++    all(target_os = "freebsd", target_arch = "aarch64"),
++    all(target_os = "freebsd", target_arch = "x86_64"),
+ )))]
+ compile_error!("This crate doesn't yet support compiling on operating systems other than linux and macos and architectures other than x86_64");
 diff --git a/lib/emscripten/src/syscalls/unix.rs b/lib/emscripten/src/syscalls/unix.rs
-index 62d807c02..76ebdebd1 100644
+index 62d807c02..cd01d3fca 100644
 --- a/lib/emscripten/src/syscalls/unix.rs
 +++ b/lib/emscripten/src/syscalls/unix.rs
 @@ -1,5 +1,5 @@
@@ -137,7 +161,7 @@ index 62d807c02..76ebdebd1 100644
 +    pub fn lstat(path: *const libc::c_char, buf: *mut stat) -> c_int;
 +}
 +
-+#[cfg(not(any(target_os = "freebsd", target_os = "macos")))] 
++#[cfg(not(any(target_os = "freebsd", target_os = "macos")))]
  use libc::{fallocate, fdatasync, ftruncate64, lstat, madvise, wait4};
  
  // Another conditional constant for name resolution: Macos et iOS use
@@ -162,7 +186,7 @@ index 62d807c02..76ebdebd1 100644
                  sa_family: Default::default(),
                  sa_data: Default::default(),
 -                #[cfg(target_os = "macos")]
-+                #[cfg(any(target_os = "freebsd", target_os = "macos"))] 
++                #[cfg(any(target_os = "freebsd", target_os = "macos"))]
                  sa_len: Default::default(),
              };
              let fd = unsafe { accept(socket, &mut host_address, address_len_addr) };
@@ -171,7 +195,7 @@ index 62d807c02..76ebdebd1 100644
                  sa_family: Default::default(),
                  sa_data: Default::default(),
 -                #[cfg(target_os = "macos")]
-+                #[cfg(any(target_os = "freebsd", target_os = "macos"))] 
++                #[cfg(any(target_os = "freebsd", target_os = "macos"))]
                  sa_len: Default::default(),
              };
              let ret = unsafe {
@@ -196,12 +220,12 @@ index 62d807c02..76ebdebd1 100644
      let _offset: off_t = varargs.get(ctx);
      let _len: off_t = varargs.get(ctx);
 -    #[cfg(not(target_os = "macos"))]
-+    #[cfg(not(any(target_os = "freebsd", target_os = "macos")))] 
++    #[cfg(not(any(target_os = "freebsd", target_os = "macos")))]
      unsafe {
          fallocate(_fd, _mode, _offset, _len)
      }
 -    #[cfg(target_os = "macos")]
-+    #[cfg(any(target_os = "freebsd", target_os = "macos"))] 
++    #[cfg(any(target_os = "freebsd", target_os = "macos"))]
      {
          unimplemented!("emscripten::___syscall324 (fallocate) {}", _which)
      }
@@ -221,11 +245,49 @@ index dc12abfe3..be6beee4d 100644
  #[cfg(target_os = "macos")]
  use libc::CLOCK_REALTIME;
  #[cfg(target_os = "macos")]
+diff --git a/lib/llvm-backend/build.rs b/lib/llvm-backend/build.rs
+index 8624c8152..45268a39f 100644
+--- a/lib/llvm-backend/build.rs
++++ b/lib/llvm-backend/build.rs
+@@ -58,6 +58,7 @@ lazy_static! {
+             "llvm-config".into(),
+             format!("llvm-config-{}", CRATE_VERSION.major),
+             format!("llvm-config-{}.{}", CRATE_VERSION.major, CRATE_VERSION.minor),
++            format!("llvm-config{}{}", CRATE_VERSION.major, CRATE_VERSION.minor),
+         ]
+     };
+ 
+diff --git a/lib/llvm-backend/src/backend.rs b/lib/llvm-backend/src/backend.rs
+index 05831733f..48ac34baa 100644
+--- a/lib/llvm-backend/src/backend.rs
++++ b/lib/llvm-backend/src/backend.rs
+@@ -206,7 +206,7 @@ impl LLVMBackend {
+ 
+         let buffer = Arc::new(Buffer::LlvmMemory(memory_buffer));
+ 
+-        #[cfg(all(any(target_os = "linux", target_os = "macos"), target_arch = "x86_64"))]
++        #[cfg(all(any(target_os = "freebsd", target_os = "linux", target_os = "macos"), target_arch = "x86_64"))]
+         {
+             use super::stackmap::{self, StkMapRecord, StkSizeRecord};
+             use std::collections::BTreeMap;
+diff --git a/lib/llvm-backend/src/stackmap.rs b/lib/llvm-backend/src/stackmap.rs
+index 4a9dbf816..3dada4e89 100644
+--- a/lib/llvm-backend/src/stackmap.rs
++++ b/lib/llvm-backend/src/stackmap.rs
+@@ -53,7 +53,7 @@ pub enum StackmapEntryKind {
+ }
+ 
+ impl StackmapEntry {
+-    #[cfg(all(any(target_os = "linux", target_os = "macos"), target_arch = "x86_64"))]
++    #[cfg(all(any(target_os = "freebsd", target_os = "linux", target_os = "macos"), target_arch = "x86_64"))]
+     pub fn populate_msm(
+         &self,
+         module_info: &ModuleInfo,
 diff --git a/lib/runtime-core/src/fault.rs b/lib/runtime-core/src/fault.rs
-index 2628e5df5..55172c06b 100644
+index 2628e5df5..16ea0e0ec 100644
 --- a/lib/runtime-core/src/fault.rs
 +++ b/lib/runtime-core/src/fault.rs
-@@ -475,6 +475,170 @@ impl FaultInfo {
+@@ -475,6 +475,244 @@ impl FaultInfo {
      }
  }
  
@@ -389,6 +451,80 @@ index 2628e5df5..55172c06b 100644
 +    FaultInfo {
 +        faulting_addr: si_addr,
 +        ip: std::mem::transmute::<&mut u64, &'static Cell<usize>>(&mut (*ucontext).uc_mcontext.mc_rip),
++        known_registers,
++    }
++}
++
++#[cfg(all(target_os = "freebsd", target_arch = "aarch64"))]
++/// Get fault info from siginfo and ucontext.
++pub unsafe fn get_fault_info(siginfo: *const c_void, ucontext: *mut c_void) -> FaultInfo {
++    #[repr(C)]
++    pub struct ucontext_t {
++        uc_sigmask: libc::sigset_t,
++        uc_mcontext: mcontext_t,
++        uc_link: *mut ucontext_t,
++        uc_stack: libc::stack_t,
++        uc_flags: i32,
++        __spare__: [i32; 4],
++    }
++
++    #[repr(C)]
++    pub struct gpregs {
++        gp_x: [u64; 30],
++        gp_lr: u64,
++        gp_sp: u64,
++        gp_elr: u64,
++        gp_spsr: u64,
++        gp_pad: i32,
++    };
++
++    #[repr(C)]
++    pub struct fpregs {
++        fp_q: [u128; 32],
++        fp_sr: u32,
++        fp_cr: u32,
++        fp_flags: i32,
++        fp_pad: i32,
++    };
++
++    #[repr(C)]
++    pub struct mcontext_t {
++        mc_gpregs: gpregs,
++        mc_fpregs: fpregs,
++        mc_flags: i32,
++        mc_pad: i32,
++        mc_spare: [u64; 8],
++    }
++
++    let siginfo = siginfo as *const siginfo_t;
++    let si_addr = (*siginfo).si_addr;
++
++    let ucontext = ucontext as *mut ucontext_t;
++    let gregs = &(*ucontext).uc_mcontext.mc_gpregs;
++
++    let mut known_registers: [Option<u64>; 32] = [None; 32];
++
++    known_registers[X64Register::GPR(GPR::R15).to_index().0] = Some(gregs.gp_x[15] as _);
++    known_registers[X64Register::GPR(GPR::R14).to_index().0] = Some(gregs.gp_x[14] as _);
++    known_registers[X64Register::GPR(GPR::R13).to_index().0] = Some(gregs.gp_x[13] as _);
++    known_registers[X64Register::GPR(GPR::R12).to_index().0] = Some(gregs.gp_x[12] as _);
++    known_registers[X64Register::GPR(GPR::R11).to_index().0] = Some(gregs.gp_x[11] as _);
++    known_registers[X64Register::GPR(GPR::R10).to_index().0] = Some(gregs.gp_x[10] as _);
++    known_registers[X64Register::GPR(GPR::R9).to_index().0] = Some(gregs.gp_x[9] as _);
++    known_registers[X64Register::GPR(GPR::R8).to_index().0] = Some(gregs.gp_x[8] as _);
++    known_registers[X64Register::GPR(GPR::RSI).to_index().0] = Some(gregs.gp_x[6] as _);
++    known_registers[X64Register::GPR(GPR::RDI).to_index().0] = Some(gregs.gp_x[7] as _);
++    known_registers[X64Register::GPR(GPR::RDX).to_index().0] = Some(gregs.gp_x[2] as _);
++    known_registers[X64Register::GPR(GPR::RCX).to_index().0] = Some(gregs.gp_x[1] as _);
++    known_registers[X64Register::GPR(GPR::RBX).to_index().0] = Some(gregs.gp_x[3] as _);
++    known_registers[X64Register::GPR(GPR::RAX).to_index().0] = Some(gregs.gp_x[0] as _);
++
++    known_registers[X64Register::GPR(GPR::RBP).to_index().0] = Some(gregs.gp_x[5] as _);
++    known_registers[X64Register::GPR(GPR::RSP).to_index().0] = Some(gregs.gp_x[28] as _);
++
++    FaultInfo {
++        faulting_addr: si_addr as usize as _,
++        ip: std::mem::transmute::<&mut u64, &'static Cell<usize>>(&mut (*ucontext).uc_mcontext.mc_gpregs.gp_elr),
 +        known_registers,
 +    }
 +}
