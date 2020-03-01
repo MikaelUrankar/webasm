@@ -2,7 +2,7 @@
 
 PORTNAME=	wasm-pack
 DISTVERSIONPREFIX=	v
-DISTVERSION=	0.8.1
+DISTVERSION=	0.9.1
 CATEGORIES=	www
 MASTER_SITES=	GH
 
@@ -22,168 +22,251 @@ MAKE_ENV=	OPENSSL_DIR="${OPENSSLBASE}"
 
 PLIST_FILES=	bin/wasm-pack
 
-CARGO_CRATES=	adler32-1.0.3 \
-		aho-corasick-0.6.10 \
+CARGO_CRATES=	adler32-1.0.4 \
+		aho-corasick-0.7.7 \
 		ansi_term-0.11.0 \
-		argon2rs-0.2.5 \
-		arrayvec-0.4.10 \
-		assert_cmd-0.10.2 \
-		atty-0.2.11 \
-		autocfg-0.1.2 \
-		backtrace-0.3.14 \
-		backtrace-sys-0.1.28 \
+		arrayref-0.3.6 \
+		arrayvec-0.5.1 \
+		assert_cmd-0.11.1 \
+		atty-0.2.14 \
+		autocfg-0.1.7 \
+		autocfg-1.0.0 \
+		backtrace-0.3.43 \
+		backtrace-sys-0.1.32 \
+		base64-0.10.1 \
+		base64-0.11.0 \
 		binary-install-0.0.2 \
-		bitflags-1.0.4 \
-		blake2-rfc-0.2.18 \
-		build_const-0.2.1 \
-		byteorder-1.3.1 \
+		bitflags-1.2.1 \
+		blake2b_simd-0.5.10 \
+		byteorder-1.3.2 \
+		bytes-0.4.12 \
 		bzip2-0.3.3 \
 		bzip2-sys-0.1.7 \
-		cargo_metadata-0.6.4 \
-		cc-1.0.31 \
-		cfg-if-0.1.7 \
-		clap-2.32.0 \
+		c2-chacha-0.2.3 \
+		cargo_metadata-0.8.2 \
+		cc-1.0.50 \
+		cfg-if-0.1.10 \
+		chrono-0.4.10 \
+		clap-2.33.0 \
 		clicolors-control-0.2.0 \
-		clicolors-control-1.0.0 \
+		clicolors-control-1.0.1 \
 		cloudabi-0.0.3 \
 		console-0.6.2 \
-		console-0.7.5 \
-		constant_time_eq-0.1.3 \
-		crc-1.8.1 \
+		console-0.9.2 \
+		constant_time_eq-0.1.5 \
+		cookie-0.12.0 \
+		cookie_store-0.7.0 \
+		core-foundation-0.6.4 \
+		core-foundation-sys-0.6.2 \
 		crc32fast-1.2.0 \
-		curl-0.4.20 \
-		curl-sys-0.4.17 \
+		crossbeam-deque-0.7.2 \
+		crossbeam-epoch-0.8.0 \
+		crossbeam-queue-0.1.2 \
+		crossbeam-utils-0.6.6 \
+		crossbeam-utils-0.7.0 \
+		curl-0.4.25 \
+		curl-sys-0.4.25 \
 		dialoguer-0.3.0 \
 		difference-2.0.0 \
 		dirs-1.0.5 \
-		encode_unicode-0.3.5 \
+		dtoa-0.4.5 \
+		either-1.5.3 \
+		encode_unicode-0.3.6 \
+		encoding_rs-0.8.22 \
 		env_logger-0.5.13 \
-		error-chain-0.12.0 \
-		escargot-0.3.1 \
-		failure-0.1.5 \
-		failure_derive-0.1.5 \
-		filetime-0.2.4 \
-		flate2-1.0.7 \
-		float-cmp-0.4.0 \
+		error-chain-0.12.1 \
+		escargot-0.4.0 \
+		failure-0.1.6 \
+		failure_derive-0.1.6 \
+		filetime-0.2.8 \
+		flate2-1.0.13 \
+		float-cmp-0.5.3 \
+		fnv-1.0.6 \
 		foreign-types-0.3.2 \
 		foreign-types-shared-0.1.1 \
 		fuchsia-cprng-0.1.1 \
+		fuchsia-zircon-0.3.3 \
+		fuchsia-zircon-sys-0.3.3 \
+		futures-0.1.29 \
+		futures-cpupool-0.1.8 \
+		getrandom-0.1.14 \
 		glob-0.2.11 \
+		h2-0.1.26 \
 		heck-0.3.1 \
+		hermit-abi-0.1.6 \
 		hex-0.3.2 \
+		http-0.1.21 \
+		http-body-0.1.0 \
+		httparse-1.3.4 \
 		human-panic-1.0.1 \
-		humantime-1.2.0 \
+		humantime-1.3.0 \
+		hyper-0.12.35 \
+		hyper-tls-0.3.2 \
+		idna-0.1.5 \
+		idna-0.2.0 \
+		indexmap-1.3.1 \
+		iovec-0.1.4 \
 		is_executable-0.1.2 \
-		itoa-0.4.3 \
+		itoa-0.4.5 \
 		kernel32-sys-0.2.2 \
 		lazy_static-0.2.11 \
-		lazy_static-1.3.0 \
-		libc-0.2.50 \
-		libflate-0.1.21 \
+		lazy_static-1.4.0 \
+		libc-0.2.66 \
 		libz-sys-1.0.25 \
 		lock_api-0.1.5 \
-		log-0.4.6 \
-		memchr-2.2.0 \
-		miniz-sys-0.1.11 \
-		miniz_oxide-0.2.1 \
-		miniz_oxide_c_api-0.2.1 \
-		nodrop-0.1.13 \
+		lock_api-0.3.3 \
+		log-0.4.8 \
+		matches-0.1.8 \
+		maybe-uninit-2.0.0 \
+		memchr-2.3.0 \
+		memoffset-0.5.3 \
+		mime-0.3.16 \
+		mime_guess-2.0.1 \
+		miniz_oxide-0.3.5 \
+		mio-0.6.21 \
+		miow-0.2.1 \
+		native-tls-0.2.3 \
+		net2-0.2.33 \
 		normalize-line-endings-0.2.2 \
-		num-traits-0.2.6 \
-		openssl-0.10.19 \
+		num-integer-0.1.42 \
+		num-traits-0.2.11 \
+		num_cpus-1.12.0 \
+		openssl-0.10.27 \
 		openssl-probe-0.1.2 \
-		openssl-src-111.2.1+1.1.1b \
-		openssl-sys-0.9.42 \
+		openssl-src-111.6.1+1.1.1d \
+		openssl-sys-0.9.54 \
 		os_type-2.2.0 \
 		owning_ref-0.4.0 \
 		parking_lot-0.6.4 \
-		parking_lot-0.7.1 \
+		parking_lot-0.9.0 \
+		parking_lot-0.10.0 \
 		parking_lot_core-0.3.1 \
-		parking_lot_core-0.4.0 \
-		pkg-config-0.3.14 \
+		parking_lot_core-0.6.2 \
+		parking_lot_core-0.7.0 \
+		percent-encoding-1.0.1 \
+		percent-encoding-2.1.0 \
+		pkg-config-0.3.17 \
 		podio-0.1.6 \
-		predicates-1.0.0 \
+		ppv-lite86-0.2.6 \
+		predicates-1.0.2 \
 		predicates-core-1.0.0 \
 		predicates-tree-1.0.0 \
-		proc-macro2-0.4.27 \
-		quick-error-1.2.2 \
-		quote-0.6.11 \
+		proc-macro2-0.4.30 \
+		proc-macro2-1.0.8 \
+		publicsuffix-1.5.4 \
+		quick-error-1.2.3 \
+		quote-0.6.13 \
+		quote-1.0.2 \
 		rand-0.3.23 \
 		rand-0.4.6 \
 		rand-0.5.6 \
 		rand-0.6.5 \
+		rand-0.7.3 \
 		rand_chacha-0.1.1 \
+		rand_chacha-0.2.1 \
 		rand_core-0.3.1 \
-		rand_core-0.4.0 \
+		rand_core-0.4.2 \
+		rand_core-0.5.1 \
 		rand_hc-0.1.0 \
+		rand_hc-0.2.0 \
 		rand_isaac-0.1.1 \
-		rand_jitter-0.1.3 \
+		rand_jitter-0.1.4 \
 		rand_os-0.1.3 \
 		rand_pcg-0.1.2 \
 		rand_xorshift-0.1.1 \
 		rdrand-0.4.0 \
-		redox_syscall-0.1.51 \
-		redox_termios-0.1.1 \
-		redox_users-0.3.0 \
-		regex-1.1.2 \
-		regex-syntax-0.6.5 \
-		remove_dir_all-0.5.1 \
-		rustc-demangle-0.1.13 \
+		redox_syscall-0.1.56 \
+		redox_users-0.3.4 \
+		regex-1.3.4 \
+		regex-syntax-0.6.14 \
+		remove_dir_all-0.5.2 \
+		reqwest-0.9.24 \
+		rust-argon2-0.7.0 \
+		rustc-demangle-0.1.16 \
 		rustc_version-0.2.3 \
-		ryu-0.2.7 \
-		same-file-1.0.4 \
-		schannel-0.1.15 \
-		scoped_threadpool-0.1.9 \
+		ryu-1.0.2 \
+		same-file-1.0.6 \
+		schannel-0.1.16 \
 		scopeguard-0.3.3 \
+		scopeguard-1.0.0 \
+		security-framework-0.3.4 \
+		security-framework-sys-0.3.3 \
 		semver-0.9.0 \
 		semver-parser-0.7.0 \
-		serde-1.0.89 \
-		serde_derive-1.0.89 \
+		serde-1.0.104 \
+		serde_derive-1.0.104 \
 		serde_ignored-0.0.4 \
-		serde_json-1.0.39 \
+		serde_json-1.0.45 \
+		serde_urlencoded-0.5.5 \
+		serial_test-0.2.0 \
+		serial_test_derive-0.2.0 \
 		siphasher-0.2.3 \
-		smallvec-0.6.9 \
-		socket2-0.3.8 \
+		slab-0.4.2 \
+		smallvec-0.6.13 \
+		smallvec-1.2.0 \
+		socket2-0.3.11 \
 		stable_deref_trait-1.1.1 \
-		strsim-0.7.0 \
+		string-0.2.1 \
 		strsim-0.8.0 \
-		structopt-0.2.15 \
-		structopt-derive-0.2.15 \
-		syn-0.15.29 \
-		synstructure-0.10.1 \
-		tar-0.4.22 \
+		structopt-0.2.18 \
+		structopt-derive-0.2.18 \
+		syn-0.15.44 \
+		syn-1.0.14 \
+		synstructure-0.12.3 \
+		tar-0.4.26 \
 		tempdir-0.3.7 \
 		tempfile-2.2.0 \
-		tempfile-3.0.7 \
+		tempfile-3.1.0 \
 		termcolor-0.3.6 \
-		termcolor-1.0.4 \
-		termion-1.5.1 \
+		termcolor-1.1.0 \
 		termios-0.3.1 \
-		textwrap-0.10.0 \
-		thread_local-0.3.6 \
+		textwrap-0.11.0 \
+		thread_local-1.0.1 \
 		time-0.1.42 \
+		tokio-0.1.22 \
+		tokio-buf-0.1.1 \
+		tokio-current-thread-0.1.6 \
+		tokio-executor-0.1.9 \
+		tokio-io-0.1.12 \
+		tokio-reactor-0.1.11 \
+		tokio-sync-0.1.7 \
+		tokio-tcp-0.1.3 \
+		tokio-threadpool-0.1.17 \
+		tokio-timer-0.2.12 \
 		toml-0.4.10 \
 		treeline-0.1.0 \
-		ucd-util-0.1.3 \
-		unicode-segmentation-1.2.1 \
-		unicode-width-0.1.5 \
+		try-lock-0.2.2 \
+		try_from-0.3.2 \
+		unicase-2.6.0 \
+		unicode-bidi-0.3.4 \
+		unicode-normalization-0.1.12 \
+		unicode-segmentation-1.6.0 \
+		unicode-width-0.1.7 \
 		unicode-xid-0.1.0 \
-		utf8-ranges-1.0.2 \
+		unicode-xid-0.2.0 \
+		url-1.7.2 \
+		url-2.1.1 \
 		uuid-0.6.5 \
-		vcpkg-0.2.6 \
+		uuid-0.7.4 \
+		vcpkg-0.2.8 \
 		vec_map-0.8.1 \
-		walkdir-2.2.7 \
+		version_check-0.1.5 \
+		version_check-0.9.1 \
+		walkdir-2.3.1 \
+		want-0.2.0 \
+		wasi-0.9.0+wasi-snapshot-preview1 \
 		which-2.0.1 \
 		winapi-0.2.8 \
-		winapi-0.3.6 \
+		winapi-0.3.8 \
 		winapi-build-0.1.1 \
 		winapi-i686-pc-windows-gnu-0.4.0 \
-		winapi-util-0.1.2 \
+		winapi-util-0.1.3 \
 		winapi-x86_64-pc-windows-gnu-0.4.0 \
 		wincolor-0.1.6 \
-		wincolor-1.0.1 \
+		winreg-0.6.2 \
+		ws2_32-sys-0.2.1 \
 		xattr-0.2.2 \
-		zip-0.5.1
+		zip-0.5.4
 
 do-install:
 	${INSTALL_PROGRAM} ${CARGO_TARGET_DIR}/release/wasm-pack ${STAGEDIR}${LOCALBASE}/bin
