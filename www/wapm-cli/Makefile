@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	wapm-cli
-DISTVERSION=	0.4.1
+DISTVERSION=	0.4.3
 CATEGORIES=	www
 MASTER_SITES=	GH
 
@@ -32,9 +32,11 @@ CARGO_CRATES=	adler32-1.0.4 \
 		backtrace-0.3.40 \
 		backtrace-sys-0.1.32 \
 		base64-0.10.1 \
-		bincode-1.2.0 \
+		base64-0.11.0 \
+		bincode-1.2.1 \
 		bitflags-1.2.1 \
 		blake2b_simd-0.5.9 \
+		blake3-0.1.5 \
 		block-buffer-0.7.3 \
 		block-padding-0.1.5 \
 		bstr-0.2.8 \
@@ -44,9 +46,9 @@ CARGO_CRATES=	adler32-1.0.4 \
 		bytes-0.4.12 \
 		c2-chacha-0.2.3 \
 		cargo_metadata-0.6.4 \
-		cc-1.0.47 \
+		cc-1.0.48 \
 		cfg-if-0.1.10 \
-		chrono-0.4.9 \
+		chrono-0.4.10 \
 		clap-2.33.0 \
 		clicolors-control-1.0.1 \
 		cloudabi-0.0.3 \
@@ -54,7 +56,7 @@ CARGO_CRATES=	adler32-1.0.4 \
 		colored-1.9.0 \
 		combine-3.8.1 \
 		console-0.9.1 \
-		constant_time_eq-0.1.4 \
+		constant_time_eq-0.1.5 \
 		cookie-0.12.0 \
 		cookie_store-0.7.0 \
 		core-foundation-0.6.4 \
@@ -63,6 +65,7 @@ CARGO_CRATES=	adler32-1.0.4 \
 		crossbeam-deque-0.7.2 \
 		crossbeam-epoch-0.8.0 \
 		crossbeam-queue-0.1.2 \
+		crossbeam-queue-0.2.0 \
 		crossbeam-utils-0.6.6 \
 		crossbeam-utils-0.7.0 \
 		crypto-mac-0.7.0 \
@@ -114,10 +117,10 @@ CARGO_CRATES=	adler32-1.0.4 \
 		h2-0.1.26 \
 		heck-0.3.1 \
 		hermit-abi-0.1.3 \
-		hex-0.3.2 \
+		hex-0.4.2 \
 		hmac-0.7.1 \
 		hostname-0.1.5 \
-		http-0.1.19 \
+		http-0.1.21 \
 		http-body-0.1.0 \
 		httparse-1.3.4 \
 		httpdate-0.3.2 \
@@ -139,11 +142,11 @@ CARGO_CRATES=	adler32-1.0.4 \
 		lazy_static-1.4.0 \
 		leb128-0.2.4 \
 		lexical-core-0.4.6 \
-		libc-0.2.65 \
+		libc-0.2.66 \
 		libsqlite3-sys-0.14.0 \
 		license-exprs-1.5.0 \
 		linked-hash-map-0.5.2 \
-		lock_api-0.3.1 \
+		lock_api-0.3.2 \
 		log-0.4.8 \
 		lru-cache-0.1.2 \
 		maplit-1.0.2 \
@@ -153,9 +156,9 @@ CARGO_CRATES=	adler32-1.0.4 \
 		memoffset-0.5.3 \
 		mime-0.3.14 \
 		mime_guess-2.0.1 \
-		minisign-0.5.12 \
+		minisign-0.5.14 \
 		miniz_oxide-0.3.5 \
-		mio-0.6.19 \
+		mio-0.6.21 \
 		miow-0.2.1 \
 		native-tls-0.2.3 \
 		net2-0.2.33 \
@@ -163,17 +166,19 @@ CARGO_CRATES=	adler32-1.0.4 \
 		nodrop-0.1.14 \
 		nom-5.0.1 \
 		num-integer-0.1.41 \
-		num-traits-0.2.8 \
-		num_cpus-1.11.0 \
+		num-traits-0.2.10 \
+		num_cpus-1.11.1 \
 		number_prefix-0.2.8 \
 		opaque-debug-0.2.3 \
-		openssl-0.10.25 \
+		openssl-0.10.26 \
 		openssl-probe-0.1.2 \
-		openssl-src-111.6.0+1.1.1d \
-		openssl-sys-0.9.52 \
+		openssl-src-111.6.1+1.1.1d \
+		openssl-sys-0.9.53 \
 		page_size-0.4.1 \
 		parking_lot-0.9.0 \
+		parking_lot-0.10.0 \
 		parking_lot_core-0.6.2 \
+		parking_lot_core-0.7.0 \
 		path-slash-0.1.1 \
 		pbkdf2-0.3.0 \
 		percent-encoding-1.0.1 \
@@ -203,8 +208,8 @@ CARGO_CRATES=	adler32-1.0.4 \
 		rand_os-0.1.3 \
 		rand_pcg-0.1.2 \
 		rand_xorshift-0.1.1 \
-		rayon-1.2.0 \
-		rayon-core-1.6.0 \
+		rayon-1.2.1 \
+		rayon-core-1.6.1 \
 		rdrand-0.4.0 \
 		redox_syscall-0.1.56 \
 		redox_users-0.3.1 \
@@ -214,6 +219,7 @@ CARGO_CRATES=	adler32-1.0.4 \
 		remove_dir_all-0.5.2 \
 		reqwest-0.9.22 \
 		rpassword-3.0.2 \
+		rpassword-4.0.3 \
 		rusqlite-0.18.0 \
 		rust-argon2-0.5.1 \
 		rustc-demangle-0.1.16 \
@@ -223,23 +229,24 @@ CARGO_CRATES=	adler32-1.0.4 \
 		schannel-0.1.16 \
 		scopeguard-1.0.0 \
 		scrypt-0.2.0 \
-		security-framework-0.3.3 \
+		security-framework-0.3.4 \
 		security-framework-sys-0.3.3 \
 		semver-0.9.0 \
 		semver-parser-0.7.0 \
 		sentry-0.15.5 \
 		sentry-types-0.11.0 \
-		serde-1.0.102 \
+		serde-1.0.103 \
 		serde-bench-0.0.7 \
-		serde_bytes-0.11.2 \
-		serde_derive-1.0.102 \
-		serde_json-1.0.41 \
+		serde_bytes-0.11.3 \
+		serde_derive-1.0.103 \
+		serde_json-1.0.44 \
 		serde_urlencoded-0.5.5 \
 		sha2-0.8.0 \
 		sized-chunks-0.1.3 \
 		skeptic-0.13.4 \
 		slab-0.4.2 \
 		smallvec-0.6.13 \
+		smallvec-1.0.0 \
 		static_assertions-0.3.4 \
 		string-0.2.1 \
 		strsim-0.8.0 \
@@ -247,8 +254,8 @@ CARGO_CRATES=	adler32-1.0.4 \
 		structopt-derive-0.2.18 \
 		subtle-1.0.0 \
 		syn-0.15.44 \
-		syn-1.0.8 \
-		synstructure-0.12.2 \
+		syn-1.0.11 \
+		synstructure-0.12.3 \
 		tar-0.4.26 \
 		tempdir-0.3.7 \
 		tempfile-3.1.0 \
@@ -261,13 +268,13 @@ CARGO_CRATES=	adler32-1.0.4 \
 		tokio-0.1.22 \
 		tokio-buf-0.1.1 \
 		tokio-current-thread-0.1.6 \
-		tokio-executor-0.1.8 \
+		tokio-executor-0.1.9 \
 		tokio-io-0.1.12 \
-		tokio-reactor-0.1.10 \
+		tokio-reactor-0.1.11 \
 		tokio-sync-0.1.7 \
 		tokio-tcp-0.1.3 \
-		tokio-threadpool-0.1.16 \
-		tokio-timer-0.2.11 \
+		tokio-threadpool-0.1.17 \
+		tokio-timer-0.2.12 \
 		toml-0.5.5 \
 		toml-query-0.9.2 \
 		toml-query_derive-0.9.0 \
@@ -275,11 +282,11 @@ CARGO_CRATES=	adler32-1.0.4 \
 		try_from-0.3.2 \
 		typenum-1.11.2 \
 		uname-0.1.1 \
-		unicase-2.5.1 \
+		unicase-2.6.0 \
 		unicode-bidi-0.3.4 \
-		unicode-normalization-0.1.9 \
+		unicode-normalization-0.1.11 \
 		unicode-segmentation-1.6.0 \
-		unicode-width-0.1.6 \
+		unicode-width-0.1.7 \
 		unicode-xid-0.1.0 \
 		unicode-xid-0.2.0 \
 		unreachable-1.0.0 \
@@ -287,9 +294,10 @@ CARGO_CRATES=	adler32-1.0.4 \
 		url-2.1.0 \
 		url_serde-0.2.0 \
 		uuid-0.7.4 \
-		vcpkg-0.2.7 \
+		vcpkg-0.2.8 \
 		vec_map-0.8.1 \
 		version_check-0.1.5 \
+		version_check-0.9.1 \
 		void-1.0.2 \
 		wabt-0.7.4 \
 		wabt-sys-0.5.4 \
@@ -298,10 +306,11 @@ CARGO_CRATES=	adler32-1.0.4 \
 		walrus-macro-0.5.0 \
 		want-0.2.0 \
 		wasi-0.7.0 \
-		wasmer-runtime-core-0.11.0 \
+		wasmer-runtime-core-0.14.1 \
 		wasmparser-0.29.2 \
 		wasmparser-0.32.1 \
-		wasmparser-0.39.2 \
+		wasmparser-0.39.3 \
+		wasmparser-0.45.2 \
 		whoami-0.5.3 \
 		winapi-0.2.8 \
 		winapi-0.3.8 \
