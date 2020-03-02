@@ -1,8 +1,9 @@
 # $FreeBSD$
 #
-# TODO enable/optionify other backends? backend-singlepass backend-llvm,experimental-io-devices
-# debug build: cargo build --release --features backend-cranelift,backend-singlepass,debug,trace
-# run test: see ${WRKSRC}/Makefile
+# TODO enable/optionify other backends?
+# backend-singlepass requires rust-nightly, loader-kernel requires backend-singlepass
+# Add a debug build? cargo build --release --features backend-cranelift,backend-singlepass,debug,trace
+# run tests: see ${WRKSRC}/Makefile
 
 PORTNAME=	wasmer
 DISTVERSION=	0.14.1
@@ -24,11 +25,13 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	wasmerio
 GH_TUPLE=	TheDan64:inkwell:0a864ebf68b33d4d514b67796264b03898aa0944:inkwell
 
+RUSTFLAGS+=	-L/${LOCALBASE}/lib	# backend-llvm : ld: error: unable to find library -lffi
+
 CARGO_USE_GITHUB=	yes
 CARGO_BUILD=	yes
 CARGO_INSTALL=	yes
-CARGO_INSTALL_ARGS+=	--features backend-cranelift
-CARGO_BUILD_ARGS+=	--features backend-cranelift
+CARGO_INSTALL_ARGS+=	--features backend-cranelift,backend-llvm,experimental-io-devices,log/release_max_level_off
+CARGO_BUILD_ARGS+=	--features backend-cranelift,backend-llvm,experimental-io-devices,log/release_max_level_off
 
 PLIST_FILES=	bin/kwasmd bin/wasmer
 
