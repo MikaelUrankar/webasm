@@ -6,7 +6,7 @@
 # run tests: see ${WRKSRC}/Makefile
 
 PORTNAME=	wasmer
-DISTVERSION=	0.14.1
+DISTVERSION=	0.16.0
 CATEGORIES=	www
 
 MAINTAINER=	mikael.urankar@gmail.com
@@ -23,20 +23,21 @@ USES=		cargo
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	wasmerio
-GH_TUPLE=	TheDan64:inkwell:0a864ebf68b33d4d514b67796264b03898aa0944:inkwell
+GH_TUPLE=	TheDan64:inkwell:af4cf4efbb27cdea8a54175ffc18ffd91964618c:inkwell
 
-RUSTFLAGS+=	-L/${LOCALBASE}/lib	# backend-llvm : ld: error: unable to find library -lffi
+# needed for backend-llvm : ld: error: unable to find library -lffi
+RUSTFLAGS+=	-L/${LOCALBASE}/lib
 
 CARGO_USE_GITHUB=	yes
 CARGO_BUILD=	yes
 CARGO_INSTALL=	yes
-CARGO_INSTALL_ARGS+=	--features backend-cranelift,backend-llvm,experimental-io-devices,log/release_max_level_off
-CARGO_BUILD_ARGS+=	--features backend-cranelift,backend-llvm,experimental-io-devices,log/release_max_level_off
+CARGO_FEATURES=	backend-cranelift,backend-llvm,experimental-io-devices,log/release_max_level_off
 
 PLIST_FILES=	bin/kwasmd bin/wasmer
 
-CARGO_CRATES=	aho-corasick-0.7.8 \
+CARGO_CRATES=	aho-corasick-0.7.9 \
 		ansi_term-0.11.0 \
+		anyhow-1.0.26 \
 		arrayref-0.3.6 \
 		arrayvec-0.4.12 \
 		arrayvec-0.5.1 \
@@ -57,24 +58,25 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		clap-2.33.0 \
 		cloudabi-0.0.3 \
 		cmake-0.1.42 \
-		colored-1.9.2 \
+		colored-1.9.3 \
 		constant_time_eq-0.1.5 \
-		cranelift-bforest-0.52.0 \
-		cranelift-codegen-0.52.0 \
-		cranelift-codegen-meta-0.52.0 \
-		cranelift-codegen-shared-0.52.0 \
+		cranelift-bforest-0.59.0 \
+		cranelift-codegen-0.59.0 \
+		cranelift-codegen-meta-0.59.0 \
+		cranelift-codegen-shared-0.59.0 \
 		cranelift-entity-0.52.0 \
-		cranelift-native-0.52.0 \
+		cranelift-entity-0.59.0 \
+		cranelift-native-0.59.0 \
 		criterion-0.2.11 \
 		criterion-plot-0.3.1 \
-		crossbeam-deque-0.7.2 \
-		crossbeam-epoch-0.8.0 \
+		crossbeam-deque-0.7.3 \
+		crossbeam-epoch-0.8.2 \
 		crossbeam-queue-0.2.1 \
-		crossbeam-utils-0.7.0 \
+		crossbeam-utils-0.7.2 \
 		crypto-mac-0.7.0 \
 		csv-1.1.3 \
-		csv-core-0.1.7 \
-		ctor-0.1.12 \
+		csv-core-0.1.10 \
+		ctor-0.1.13 \
 		digest-0.8.1 \
 		dynasm-0.5.2 \
 		dynasmrt-0.5.2 \
@@ -82,6 +84,8 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		erased-serde-0.3.10 \
 		errno-0.2.4 \
 		errno-dragonfly-0.1.1 \
+		faerie-0.13.0 \
+		fallible-iterator-0.2.0 \
 		fern-0.5.9 \
 		fuchsia-cprng-0.1.1 \
 		gcc-0.3.55 \
@@ -89,11 +93,13 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		generic-array-0.12.3 \
 		getrandom-0.1.14 \
 		ghost-0.1.1 \
+		gimli-0.20.0 \
 		glob-0.2.11 \
 		glob-0.3.0 \
 		goblin-0.0.24 \
+		goblin-0.1.3 \
 		heck-0.3.1 \
-		hermit-abi-0.1.6 \
+		hermit-abi-0.1.8 \
 		hex-0.4.2 \
 		indexmap-1.3.2 \
 		inventory-0.1.5 \
@@ -102,20 +108,21 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		itoa-0.4.5 \
 		lazy_static-1.4.0 \
 		leb128-0.2.4 \
-		lexical-core-0.4.6 \
+		lexical-core-0.6.2 \
 		libc-0.2.67 \
 		llvm-sys-80.1.2 \
 		lock_api-0.3.3 \
 		log-0.4.8 \
 		maybe-uninit-2.0.0 \
 		md5-0.6.1 \
-		memchr-2.3.2 \
+		memchr-2.3.3 \
 		memmap-0.7.0 \
 		memoffset-0.5.3 \
 		minifb-0.13.0 \
+		more-asserts-0.2.1 \
 		nix-0.15.0 \
 		nodrop-0.1.14 \
-		nom-5.1.0 \
+		nom-5.1.1 \
 		num-0.1.42 \
 		num-integer-0.1.42 \
 		num-iter-0.1.40 \
@@ -123,17 +130,17 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		num_cpus-1.12.0 \
 		once_cell-1.3.1 \
 		orbclient-0.3.27 \
-		owning_ref-0.4.0 \
+		owning_ref-0.4.1 \
 		page_size-0.4.2 \
 		parking_lot-0.10.0 \
 		parking_lot_core-0.7.0 \
 		pkg-config-0.3.17 \
 		plain-0.2.3 \
 		ppv-lite86-0.2.6 \
-		proc-macro-error-0.4.8 \
-		proc-macro-error-attr-0.4.8 \
+		proc-macro-error-0.4.11 \
+		proc-macro-error-attr-0.4.11 \
 		proc-macro2-0.4.30 \
-		proc-macro2-1.0.8 \
+		proc-macro2-1.0.9 \
 		quote-0.6.13 \
 		quote-1.0.2 \
 		rand-0.6.5 \
@@ -159,15 +166,16 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		ref_thread_local-0.0.0 \
 		regex-1.3.4 \
 		regex-automata-0.1.8 \
-		regex-syntax-0.6.14 \
+		regex-syntax-0.6.15 \
 		remove_dir_all-0.5.2 \
 		rustc_version-0.2.3 \
-		rustversion-1.0.2 \
 		ryu-1.0.2 \
 		same-file-1.0.6 \
-		scopeguard-1.0.0 \
+		scopeguard-1.1.0 \
 		scroll-0.9.2 \
+		scroll-0.10.1 \
 		scroll_derive-0.9.5 \
+		scroll_derive-0.10.1 \
 		sdl2-0.32.2 \
 		sdl2-sys-0.32.6 \
 		semver-0.9.0 \
@@ -181,18 +189,20 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		smallvec-1.2.0 \
 		stable_deref_trait-1.1.1 \
 		static_assertions-0.3.4 \
+		string-interner-0.7.1 \
 		strsim-0.8.0 \
-		structopt-0.3.9 \
-		structopt-derive-0.4.2 \
+		structopt-0.3.11 \
+		structopt-derive-0.4.4 \
 		subtle-1.0.0 \
 		syn-0.15.44 \
-		syn-1.0.14 \
+		syn-1.0.16 \
 		syn-mid-0.5.0 \
 		target-lexicon-0.9.0 \
+		target-lexicon-0.10.0 \
 		tempfile-3.1.0 \
 		textwrap-0.11.0 \
-		thiserror-1.0.10 \
-		thiserror-impl-1.0.10 \
+		thiserror-1.0.11 \
+		thiserror-impl-1.0.11 \
 		thread_local-1.0.1 \
 		time-0.1.42 \
 		tinytemplate-1.0.3 \
@@ -205,15 +215,17 @@ CARGO_CRATES=	aho-corasick-0.7.8 \
 		unicode-xid-0.1.0 \
 		unicode-xid-0.2.0 \
 		vec_map-0.8.1 \
-		version_check-0.1.5 \
+		version_check-0.9.1 \
 		void-1.0.2 \
 		wabt-0.9.2 \
 		wabt-sys-0.7.0 \
 		walkdir-2.3.1 \
 		wasi-0.9.0+wasi-snapshot-preview1 \
-		wasmer-clif-fork-frontend-0.52.0 \
-		wasmer-clif-fork-wasm-0.52.0 \
-		wasmparser-0.45.2 \
+		wasm-debug-0.1.0 \
+		wasmer-clif-fork-frontend-0.59.0 \
+		wasmer-clif-fork-wasm-0.59.0 \
+		wasmparser-0.39.3 \
+		wasmparser-0.51.4 \
 		wast-8.0.0 \
 		winapi-0.3.8 \
 		winapi-i686-pc-windows-gnu-0.4.0 \
