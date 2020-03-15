@@ -1,4 +1,4 @@
-TIMESTAMP = 1584035762
+TIMESTAMP = 1584280548
 SHA256 (rust/crates/aho-corasick-0.7.9.tar.gz) = d5e63fd144e18ba274ae7095c0197a870a7b9468abc801dd62f190d80817d2ec
 SIZE (rust/crates/aho-corasick-0.7.9.tar.gz) = 110785
 SHA256 (rust/crates/ansi_term-0.11.0.tar.gz) = ee49baf6cb617b853aa8d93bf420db2383fab46d314482ca2803b40d5fde979b
@@ -393,7 +393,7 @@ SHA256 (rust/crates/winapi-x86_64-pc-windows-gnu-0.4.0.tar.gz) = 712e227841d057c
 SIZE (rust/crates/winapi-x86_64-pc-windows-gnu-0.4.0.tar.gz) = 2947998
 SHA256 (rust/crates/x11-dl-2.18.5.tar.gz) = 2bf981e3a5b3301209754218f962052d4d9ee97e478f4d26d4a6eced34c1fef8
 SIZE (rust/crates/x11-dl-2.18.5.tar.gz) = 62951
-SHA256 (wasmerio-wasmer-0.16.0_GH0.tar.gz) = 1adc0ad517f7bbb7c4b111fc06e2d6a019d336448b943c56f2ab257a8066464b
-SIZE (wasmerio-wasmer-0.16.0_GH0.tar.gz) = 12302255
+SHA256 (wasmerio-wasmer-0.16.2_GH0.tar.gz) = c2a5aa609fae558d07a24f268489d748093ae8e7c6f42699d1f7316ac3b44968
+SIZE (wasmerio-wasmer-0.16.2_GH0.tar.gz) = 12301683
 SHA256 (TheDan64-inkwell-af4cf4efbb27cdea8a54175ffc18ffd91964618c_GH0.tar.gz) = cc83ff991dd2f7ec14e313dd3105e9558a70d4ee7d60169ff9af7d07859cfed1
 SIZE (TheDan64-inkwell-af4cf4efbb27cdea8a54175ffc18ffd91964618c_GH0.tar.gz) = 143962

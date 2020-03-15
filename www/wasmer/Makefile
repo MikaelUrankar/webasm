@@ -6,7 +6,7 @@
 # run tests: see ${WRKSRC}/Makefile
 
 PORTNAME=	wasmer
-DISTVERSION=	0.16.0
+DISTVERSION=	0.16.2
 CATEGORIES=	www
 
 MAINTAINER=	mikael.urankar@gmail.com
