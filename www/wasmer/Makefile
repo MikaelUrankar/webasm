@@ -1,5 +1,5 @@
 # $FreeBSD$
-#
+
 # TODO enable/optionify other backends?
 # backend-singlepass requires rust-nightly, loader-kernel requires backend-singlepass
 # Add a debug build? cargo build --release --features backend-cranelift,backend-singlepass,debug,trace
@@ -17,8 +17,6 @@ LICENSE=	MIT
 ONLY_FOR_ARCH=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	not ported to other architectures
 
-RUN_DEPENDS=	cargo:lang/${RUST_DEFAULT}
-
 USES=		cargo
 
 USE_GITHUB=	yes
@@ -26,7 +24,7 @@ GH_ACCOUNT=	wasmerio
 GH_TUPLE=	TheDan64:inkwell:af4cf4efbb27cdea8a54175ffc18ffd91964618c:inkwell
 
 # needed for backend-llvm : ld: error: unable to find library -lffi
-RUSTFLAGS+=	-L/${LOCALBASE}/lib
+RUSTFLAGS+=	-L${LOCALBASE}/lib
 
 CARGO_USE_GITHUB=	yes
 CARGO_BUILD=	yes
