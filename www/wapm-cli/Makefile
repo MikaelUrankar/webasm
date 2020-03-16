@@ -14,7 +14,8 @@ LICENSE=	APACHE20
 RUN_DEPENDS=	cargo:lang/${RUST_DEFAULT} \
 		wasmer:www/wasmer
 
-USES=		cargo
+USES=		cargo gmake perl5
+USE_PERL5=	build
 USE_GITHUB=	yes
 GH_ACCOUNT=	wasmerio
 
