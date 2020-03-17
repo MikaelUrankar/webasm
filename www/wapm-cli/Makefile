@@ -1,5 +1,7 @@
 # $FreeBSD$
 
+# it requires https://reviews.freebsd.org/D11482 on aarch64
+
 PORTNAME=	wapm-cli
 DISTVERSIONPREFIX=	v
 DISTVERSION=	0.5.0
